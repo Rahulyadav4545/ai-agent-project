@@ -26,20 +26,18 @@ def print_header(text):
     print(f"{'='*70}{Colors.ENDC}\n")
 
 def print_success(text):
-    print(f"{Colors.OKGREEN}✅ {text}{Colors.ENDC}")
+    print(f"{Colors.OKGREEN} {text}{Colors.ENDC}")
 
 def print_info(text):
-    print(f"{Colors.OKCYAN}ℹ️  {text}{Colors.ENDC}")
+    print(f"{Colors.OKCYAN}ℹ {text}{Colors.ENDC}")
 
 def print_warning(text):
-    print(f"{Colors.WARNING}⚠️  {text}{Colors.ENDC}")
+    print(f"{Colors.WARNING}  {text}{Colors.ENDC}")
 
 def print_error(text):
-    print(f"{Colors.FAIL}❌ {text}{Colors.ENDC}")
+    print(f"{Colors.FAIL} {text}{Colors.ENDC}")
 
-# ============================================
 # TEST 1: SIMPLE REQUEST
-# ============================================
 
 test_1_request = """
 Create a professional meeting minutes document for a Product Roadmap Review Meeting.
@@ -59,9 +57,7 @@ Include:
 Format it as a professional business document.
 """
 
-# ============================================
 # TEST 2: COMPLEX REQUEST (AMBIGUOUS/MULTI-STEP)
-# ============================================
 
 test_2_request = """
 Create a technical design document for building a new microservice, but make reasonable assumptions because:
@@ -87,9 +83,7 @@ The agent MUST:
 This tests the agent's ability to handle incomplete information and autonomous decision-making.
 """
 
-# ============================================
 # HELPER FUNCTIONS
-# ============================================
 
 def test_health_check():
     """Check if API is running"""
@@ -169,23 +163,21 @@ def check_document():
         file_size = os.path.getsize("output.docx")
         print_success(f"Document found: output.docx")
         print_info(f"File size: {file_size} bytes")
-        print_info(f"✅ You can open this file with Microsoft Word or any office suite")
+        print_info(f"You can open this file with Microsoft Word or any office suite")
         return True
     else:
         print_warning("output.docx not found in current directory")
         print_info("Document may have been saved in a different location")
         return False
 
-# ============================================
 # MAIN TEST SUITE
-# ============================================
 
 def main():
     print(f"""
     {Colors.HEADER}{Colors.BOLD}
     ╔════════════════════════════════════════════════════════╗
     ║   🤖 AUTONOMOUS AI AGENT - TEST SUITE                  ║
-    ║   60-Minute Build Challenge                             ║
+    ║        An autonomous AI agent that generates professional Word documents based on user requests. ║
     ╚════════════════════════════════════════════════════════╝
     {Colors.ENDC}
     """)
@@ -221,11 +213,11 @@ def main():
     
     # Summary
     print_header("Test Summary")
-    print(f"Test 1 (Simple): {'✅ PASSED' if test1_passed else '❌ FAILED'}")
-    print(f"Test 2 (Complex): {'✅ PASSED' if test2_passed else '❌ FAILED'}")
+    print(f"Test 1 (Simple): {' PASSED' if test1_passed else ' FAILED'}")
+    print(f"Test 2 (Complex): {'PASSED' if test2_passed else ' FAILED'}")
     
     if test1_passed and test2_passed:
-        print_success("All tests completed successfully! 🎉")
+        print_success("All tests completed successfully! ")
         print_info("Next: Record video demo with these results")
     else:
         print_warning("Some tests failed. Check the agent API and try again.")

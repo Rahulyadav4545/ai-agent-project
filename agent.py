@@ -10,27 +10,21 @@ import os
 import json
 from datetime import datetime
 
-# ============================================
 # 1. FASTAPI APP SETUP
-# ============================================
 app = FastAPI(
     title="Autonomous AI Agent API",
-    description="60-Minute Build Challenge - Python AI Engineer",
+    description="An autonomous AI agent that generates professional Word documents based on user requests. Built with FastAPI, LangGraph, and Groq LLM.",
     version="1.0.0"
 )
 
-# ============================================
 # 2. GROQ API KEY SETUP
-# ============================================
 # IMPORTANT: Replace with your actual Groq API key from groq.com
 os.environ["GROQ_API_KEY"] = "paste your_groq_api_key_here"
 
 # Initialize LLM (Groq Llama 3.1 - Free)
 llm = ChatGroq(temperature=0.3, model_name="llama-3.1-8b-instant")
 
-# ============================================
 # 3. TOOLS DEFINITION
-# ============================================
 
 @tool
 def create_word_document(title: str, sections: str, filename: str = "output.docx") -> str:
@@ -94,14 +88,10 @@ def analyze_request(request: str) -> str:
 # Tools list
 tools = [create_word_document, analyze_request]
 
-# ============================================
 # 4. AGENT SETUP (Using LangGraph ReAct)
-# ============================================
 agent_executor = create_react_agent(llm, tools)
 
-# ============================================
 # 5. REQUEST/RESPONSE MODELS
-# ============================================
 
 class RequestModel(BaseModel):
     request: str
@@ -123,9 +113,7 @@ class ResponseModel(BaseModel):
     document_path: str
     execution_time: str
 
-# ============================================
 # 6. MAIN AGENT ENDPOINT
-# ============================================
 
 @app.post("/agent", response_model=ResponseModel)
 async def run_agent(payload: RequestModel):
@@ -143,9 +131,9 @@ async def run_agent(payload: RequestModel):
     start_time = time.time()
     
     try:
-        # ============================================
+    
         # SYSTEM PROMPT - Guides agent behavior
-        # ============================================
+    
         system_prompt = SystemMessage(content="""You are an autonomous AI engineering agent.
 
 When you receive a user request, ALWAYS follow these steps:
@@ -174,15 +162,15 @@ User Request: {user_request}""".format(user_request=payload.request))
 
         user_prompt = HumanMessage(content=payload.request)
         
-        # ============================================
+    
         # RUN THE AGENT
-        # ============================================
+    
         inputs = {"messages": [system_prompt, user_prompt]}
         response = agent_executor.invoke(inputs)
         
-        # ============================================
+    
         # EXTRACT RESULTS
-        # ============================================
+    
         full_response = response["messages"][-1].content
         
         # Parse task breakdown from response
@@ -213,9 +201,7 @@ User Request: {user_request}""".format(user_request=payload.request))
         )
 
 
-# ============================================
 # 7. HELPER FUNCTION - Extract Task Plan
-# ============================================
 
 def extract_task_plan(response_text: str) -> list:
     """
@@ -250,9 +236,7 @@ def extract_task_plan(response_text: str) -> list:
     return tasks[:5]  # Return max 5 tasks
 
 
-# ============================================
 # 8. DOWNLOAD ENDPOINT
-# ============================================
 
 @app.get("/download")
 async def download_document():
@@ -274,9 +258,7 @@ async def download_document():
     )
 
 
-# ============================================
 # 9. HEALTH CHECK ENDPOINT
-# ============================================
 
 @app.get("/health")
 async def health_check():
@@ -290,9 +272,7 @@ async def health_check():
     }
 
 
-# ============================================
 # 10. ROOT ENDPOINT
-# ============================================
 
 @app.get("/")
 async def root():
@@ -315,9 +295,7 @@ async def root():
     }
 
 
-# ============================================
 # 11. RUN SERVER
-# ============================================
 
 if __name__ == "__main__":
     import uvicorn
