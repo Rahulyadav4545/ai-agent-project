@@ -1,0 +1,22 @@
+# AUTONOMOUS AI AGENT - DEPENDENCIES
+# Install with: pip install -r requirements.txt
+
+# FastAPI & Web Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+
+# LLM & AI Framework
+langchain==0.1.0
+langchain-groq==0.1.0
+langgraph==0.0.20
+langchain-core==0.1.0
+
+# Document Processing
+python-docx==0.8.11
+
+# HTTP Client
+requests==2.31.0
+
+# Utilities
+python-dotenv==1.0.0
+pydantic==2.5.0
